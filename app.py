@@ -47,23 +47,344 @@ CUSTOM_CSS = """
     --accent-cyan: #00E5FF;
     --accent-blue: #3B82F6;
     --text-primary: #F8FAFC;
-    --text-muted: #94A3B8;
+    --text-muted: #CBD5E1;
     --color-danger: #EF4444;
     --color-success: #10B981;
     --color-warning: #F59E0B;
 }
 
-/* Background & Main Container */
+/* 1. Header & Top Bar - Remove white strip */
+[data-testid="stDecoration"] {
+    display: none !important;
+}
+
+header[data-testid="stHeader"] {
+    background-color: #0B0F19 !important;
+    background: #0B0F19 !important;
+    border-bottom: 1px solid #1E293B !important;
+    color: #F8FAFC !important;
+}
+
+header[data-testid="stHeader"] svg {
+    fill: #F8FAFC !important;
+    color: #F8FAFC !important;
+}
+
+header[data-testid="stHeader"] button {
+    color: #F8FAFC !important;
+    background: transparent !important;
+}
+
+/* 2. Background & Main Container */
 .stApp {
-    background-color: var(--bg-main);
-    color: var(--text-primary);
+    background-color: var(--bg-main) !important;
+    color: var(--text-primary) !important;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Sidebar Customization */
+/* 3. Universal High-Contrast Text Labels */
+label,
+[data-testid="stWidgetLabel"] label,
+[data-testid="stWidgetLabel"] p,
+[data-testid="stWidgetLabel"] span {
+    color: #F8FAFC !important;
+    font-weight: 600 !important;
+    font-size: 0.92rem !important;
+    opacity: 1 !important;
+}
+
+.stMarkdown p,
+.stMarkdown span {
+    color: #CBD5E1;
+}
+
+/* 4. Sidebar Customization & Text Visibility */
 [data-testid="stSidebar"] {
-    background-color: #0E1424;
-    border-right: 1px solid #1E293B;
+    background-color: #0E1424 !important;
+    border-right: 1px solid #1E293B !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] span,
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] div {
+    color: #CBD5E1 !important;
+}
+
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3,
+[data-testid="stSidebar"] h4 {
+    color: #FFFFFF !important;
+}
+
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"] label,
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p,
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"] span {
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
+    font-size: 0.92rem !important;
+    opacity: 1 !important;
+}
+
+/* 5. Sliders (Labels, Values, Tracks, Handles) */
+div[data-testid="stThumbValue"],
+[data-testid="stSidebar"] div[data-testid="stThumbValue"] {
+    color: #00E5FF !important;
+    font-weight: 700 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.95rem !important;
+}
+
+div[data-testid="stSliderTickBarMin"],
+div[data-testid="stSliderTickBarMax"],
+div[data-testid="stSliderTickBar"] span {
+    color: #94A3B8 !important;
+    font-weight: 500 !important;
+}
+
+div[data-baseweb="slider"] div[role="slider"] {
+    background-color: #00E5FF !important;
+    border: 2px solid #FFFFFF !important;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.6) !important;
+}
+
+/* 6. Selectbox (SIFT / ORB Dropdown) */
+div[data-baseweb="select"] > div {
+    background-color: #1E293B !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+    color: #FFFFFF !important;
+}
+
+div[data-baseweb="select"] > div:hover {
+    border-color: #00E5FF !important;
+}
+
+div[data-baseweb="select"] span,
+div[data-baseweb="select"] div,
+div[data-baseweb="select"] p {
+    color: #FFFFFF !important;
+    font-weight: 500 !important;
+}
+
+div[data-baseweb="select"] svg {
+    fill: #00E5FF !important;
+}
+
+div[data-baseweb="popover"],
+ul[data-baseweb="menu"] {
+    background-color: #111827 !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+}
+
+li[role="option"] {
+    background-color: #111827 !important;
+    color: #F8FAFC !important;
+    font-weight: 500 !important;
+}
+
+li[role="option"]:hover,
+li[role="option"][aria-selected="true"] {
+    background-color: #1E293B !important;
+    color: #00E5FF !important;
+}
+
+/* 7. Number Input */
+div[data-baseweb="input"] {
+    background-color: #1E293B !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+}
+
+div[data-baseweb="input"] input {
+    background-color: #1E293B !important;
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
+}
+
+/* 8. Expander (Geometric Verification) */
+[data-testid="stExpander"] {
+    background: #111827 !important;
+    border: 1px solid #334155 !important;
+    border-radius: 10px !important;
+    margin-top: 12px !important;
+}
+
+[data-testid="stExpander"] summary {
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
+}
+
+[data-testid="stExpander"] summary:hover {
+    color: #00E5FF !important;
+}
+
+[data-testid="stExpander"] summary svg {
+    fill: #00E5FF !important;
+    color: #00E5FF !important;
+}
+
+[data-testid="stExpander"] [data-testid="stExpanderDetails"] {
+    border-top: 1px solid #1E293B !important;
+    padding-top: 14px !important;
+}
+
+/* 9. Image Upload Area & Dropzone */
+[data-testid="stFileUploader"] {
+    background-color: #111827 !important;
+    border: 1px solid #1E293B !important;
+    border-radius: 12px !important;
+    padding: 16px !important;
+}
+
+[data-testid="stFileUploaderDropzone"] {
+    background-color: #162032 !important;
+    border: 2px dashed #334155 !important;
+    border-radius: 10px !important;
+    padding: 26px 20px !important;
+    text-align: center !important;
+    transition: border-color 0.2s ease, background-color 0.2s ease !important;
+}
+
+[data-testid="stFileUploaderDropzone"]:hover {
+    border-color: #00E5FF !important;
+    background-color: #1B2942 !important;
+}
+
+[data-testid="stFileUploaderDropzone"] span,
+[data-testid="stFileUploaderDropzone"] div,
+[data-testid="stFileUploaderDropzone"] p {
+    color: #F8FAFC !important;
+    font-weight: 500 !important;
+}
+
+[data-testid="stFileUploaderDropzone"] small {
+    color: #94A3B8 !important;
+}
+
+[data-testid="stFileUploaderDropzone"] button {
+    background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
+    color: #FFFFFF !important;
+    border: 1px solid #38BDF8 !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    padding: 8px 20px !important;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4) !important;
+}
+
+[data-testid="stFileUploaderDropzone"] button:hover {
+    background: linear-gradient(135deg, #0369A1 0%, #0284C7 100%) !important;
+    border-color: #00E5FF !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 14px rgba(0, 229, 255, 0.4) !important;
+}
+
+[data-testid="stFileUploaderFile"] {
+    background-color: #1E293B !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+    color: #F8FAFC !important;
+}
+
+[data-testid="stFileUploaderFile"] span,
+[data-testid="stFileUploaderFile"] div {
+    color: #F8FAFC !important;
+}
+
+/* 10. Buttons */
+button[kind="primary"],
+button[data-testid="stBaseButton-primary"] {
+    background: linear-gradient(135deg, #0284C7 0%, #00B4D8 100%) !important;
+    color: #FFFFFF !important;
+    border: 1px solid #00E5FF !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+    border-radius: 8px !important;
+    padding: 10px 24px !important;
+    box-shadow: 0 4px 14px rgba(0, 180, 216, 0.35) !important;
+    transition: all 0.2s ease !important;
+}
+
+button[kind="primary"]:hover,
+button[data-testid="stBaseButton-primary"]:hover {
+    background: linear-gradient(135deg, #00B4D8 0%, #0284C7 100%) !important;
+    box-shadow: 0 6px 20px rgba(0, 229, 255, 0.5) !important;
+    transform: translateY(-1px) !important;
+    color: #FFFFFF !important;
+}
+
+button[kind="primary"]:disabled,
+button[data-testid="stBaseButton-primary"]:disabled {
+    background: #1E293B !important;
+    color: #64748B !important;
+    border: 1px solid #334155 !important;
+    box-shadow: none !important;
+}
+
+button[kind="secondary"],
+button[data-testid="stBaseButton-secondary"],
+[data-testid="stDownloadButton"] button {
+    background: #1E293B !important;
+    color: #F8FAFC !important;
+    border: 1px solid #334155 !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    padding: 8px 16px !important;
+    transition: all 0.15s ease !important;
+}
+
+button[kind="secondary"]:hover,
+button[data-testid="stBaseButton-secondary"]:hover,
+[data-testid="stDownloadButton"] button:hover {
+    background: #2D3E56 !important;
+    border-color: #00E5FF !important;
+    color: #00E5FF !important;
+    box-shadow: 0 2px 10px rgba(0, 229, 255, 0.2) !important;
+}
+
+/* 11. Tabs */
+[data-testid="stTabs"] {
+    border-bottom: 1px solid #1E293B !important;
+}
+
+[data-testid="stTabs"] button[role="tab"] {
+    color: #94A3B8 !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    padding: 10px 18px !important;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    transition: color 0.15s ease, border-color 0.15s ease !important;
+}
+
+[data-testid="stTabs"] button[role="tab"]:hover {
+    color: #F8FAFC !important;
+    border-bottom: 2px solid #334155 !important;
+}
+
+[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
+    color: #00E5FF !important;
+    border-bottom: 2px solid #00E5FF !important;
+}
+
+[data-testid="stTabs"] [data-testid="stTabContent"] {
+    padding-top: 16px !important;
+}
+
+/* 12. Tooltips */
+[data-testid="stTooltipIcon"] svg {
+    fill: #00E5FF !important;
+}
+
+div[data-baseweb="tooltip"] {
+    background-color: #1E293B !important;
+    color: #F8FAFC !important;
+    border: 1px solid #334155 !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
 }
 
 /* Header Banner */
@@ -92,7 +413,7 @@ CUSTOM_CSS = """
     letter-spacing: 0.08em;
 }
 .forensic-header p.description {
-    color: var(--text-muted);
+    color: #CBD5E1;
     font-size: 0.95rem;
     line-height: 1.5;
     margin: 0;
@@ -143,7 +464,7 @@ CUSTOM_CSS = """
 }
 .metric-label {
     font-size: 0.78rem;
-    color: var(--text-muted);
+    color: #CBD5E1;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -158,36 +479,28 @@ CUSTOM_CSS = """
 }
 .metric-sub {
     font-size: 0.75rem;
-    color: #64748B;
+    color: #94A3B8;
     margin-top: 4px;
-}
-
-/* Section Box */
-.section-box {
-    background: #111827;
-    border: 1px solid #1E293B;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
 }
 
 /* Footer */
 .forensic-footer {
     text-align: center;
     padding: 28px 10px 16px 10px;
-    color: #64748B;
+    color: #94A3B8;
     font-size: 0.85rem;
     border-top: 1px solid #1E293B;
     margin-top: 40px;
 }
 
-/* File Upload styling */
+/* File Upload info */
 .uploaded-info {
     background: #1E293B;
+    border: 1px solid #334155;
     border-radius: 8px;
     padding: 12px 16px;
     font-size: 0.85rem;
-    color: #CBD5E1;
+    color: #F8FAFC;
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
@@ -356,8 +669,8 @@ def render_sidebar() -> Dict[str, Any]:
 
         st.markdown(
             """
-            <div style="font-size: 0.75rem; color: #64748B; margin-top: 15px; line-height: 1.4;">
-                <strong>About CMFD Engine:</strong><br>
+            <div style="font-size: 0.78rem; color: #94A3B8; margin-top: 15px; line-height: 1.45;">
+                <strong style="color: #CBD5E1;">About CMFD Engine:</strong><br>
                 Extracts invariant keypoints, executes self-referential k-NN matching, and eliminates
                 natural spatial proximity before verifying affine displacement via RANSAC.
             </div>
@@ -429,6 +742,8 @@ def render_image_input_section() -> Optional[Tuple[np.ndarray, str, int]]:
             key="user_file_uploader",
         )
         if uploaded_file is not None:
+            if "preset_image" in st.session_state:
+                del st.session_state["preset_image"]
             try:
                 active_image, active_name, active_size = load_image_bytes(uploaded_file)
             except Exception as exc:
@@ -444,12 +759,14 @@ def render_image_input_section() -> Optional[Tuple[np.ndarray, str, int]]:
             if st.button("📄 Load Authentic Sample", use_container_width=True):
                 if auth_sample_path.exists():
                     st.session_state["preset_image"] = ("authentic", auth_sample_path)
+                    st.rerun()
                 else:
                     st.warning("Sample authentic.png not found in samples/ directory.")
         with col_s2:
             if st.button("⚠️ Load Forged Sample", use_container_width=True):
                 if forged_sample_path.exists():
                     st.session_state["preset_image"] = ("forged", forged_sample_path)
+                    st.rerun()
                 else:
                     st.warning("Sample forged.png not found in samples/ directory.")
         with col_s3:
@@ -473,10 +790,10 @@ def render_image_input_section() -> Optional[Tuple[np.ndarray, str, int]]:
             f"""
             <div class="uploaded-info">
                 <div>
-                    <strong>Active File:</strong> <code>{active_name}</code> &nbsp;|&nbsp;
-                    <strong>Resolution:</strong> {w} × {h} px &nbsp;|&nbsp;
-                    <strong>Size:</strong> {size_kb:.1f} KB &nbsp;|&nbsp;
-                    <strong>Channels:</strong> RGB
+                    <strong style="color: #00E5FF;">Active File:</strong> <code style="color: #F8FAFC;">{active_name}</code> &nbsp;|&nbsp;
+                    <strong style="color: #00E5FF;">Resolution:</strong> {w} × {h} px &nbsp;|&nbsp;
+                    <strong style="color: #00E5FF;">Size:</strong> {size_kb:.1f} KB &nbsp;|&nbsp;
+                    <strong style="color: #00E5FF;">Channels:</strong> RGB
                 </div>
             </div>
             """,
@@ -497,10 +814,10 @@ def render_image_input_section() -> Optional[Tuple[np.ndarray, str, int]]:
     # Empty State Guide
     st.markdown(
         """
-        <div style="background: rgba(17, 24, 39, 0.6); border: 2px dashed #1E293B; border-radius: 12px; padding: 36px 20px; text-align: center; margin-top: 15px;">
+        <div style="background: rgba(17, 24, 39, 0.7); border: 2px dashed #334155; border-radius: 12px; padding: 36px 20px; text-align: center; margin-top: 15px;">
             <span style="font-size: 2.5rem; display: block; margin-bottom: 8px;">📷</span>
-            <h4 style="margin: 0 0 6px 0; color: #E2E8F0;">No Image Selected for Analysis</h4>
-            <p style="color: #94A3B8; font-size: 0.88rem; margin: 0 auto; max-width: 500px;">
+            <h4 style="margin: 0 0 6px 0; color: #F8FAFC;">No Image Selected for Analysis</h4>
+            <p style="color: #CBD5E1; font-size: 0.9rem; margin: 0 auto; max-width: 500px;">
                 Upload a JPEG, PNG, or TIFF image above, or choose a benchmark test sample to begin
                 tampering localization.
             </p>
@@ -548,13 +865,13 @@ def render_results(
         conf_pct = result.confidence_score * 100.0
         st.markdown(
             f"""
-            <div style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.4); border-left: 5px solid #EF4444; border-radius: 10px; padding: 18px 24px; margin-bottom: 24px;">
+            <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.5); border-left: 5px solid #EF4444; border-radius: 10px; padding: 18px 24px; margin-bottom: 24px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <span style="font-size: 1.8rem;">🚨</span>
                         <div>
                             <h3 style="margin: 0; color: #FCA5A5; font-size: 1.25rem;">TAMPERING DETECTED: Copy-Move Forgery Confirmed</h3>
-                            <p style="margin: 2px 0 0 0; color: #CBD5E1; font-size: 0.88rem;">
+                            <p style="margin: 2px 0 0 0; color: #F8FAFC; font-size: 0.9rem;">
                                 Found <strong>{result.num_verified_matches}</strong> geometrically verified matching inliers matching an affine transformation.
                             </p>
                         </div>
@@ -573,12 +890,12 @@ def render_results(
         if has_low_feature:
             st.markdown(
                 """
-                <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.4); border-left: 5px solid #F59E0B; border-radius: 10px; padding: 18px 24px; margin-bottom: 24px;">
+                <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.5); border-left: 5px solid #F59E0B; border-radius: 10px; padding: 18px 24px; margin-bottom: 24px;">
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <span style="font-size: 1.8rem;">⚠️</span>
                         <div>
                             <h3 style="margin: 0; color: #FCD34D; font-size: 1.25rem;">LOW TEXTURE / INCONCLUSIVE</h3>
-                            <p style="margin: 2px 0 0 0; color: #CBD5E1; font-size: 0.88rem;">
+                            <p style="margin: 2px 0 0 0; color: #F8FAFC; font-size: 0.9rem;">
                                 The image lacks sufficient corner textures or distinct gradient features to reliably detect duplication.
                             </p>
                         </div>
@@ -590,13 +907,13 @@ def render_results(
         else:
             st.markdown(
                 """
-                <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.4); border-left: 5px solid #10B981; border-radius: 10px; padding: 18px 24px; margin-bottom: 24px;">
+                <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.5); border-left: 5px solid #10B981; border-radius: 10px; padding: 18px 24px; margin-bottom: 24px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <span style="font-size: 1.8rem;">🛡️</span>
                             <div>
                                 <h3 style="margin: 0; color: #6EE7B7; font-size: 1.25rem;">NO COPY-MOVE TAMPERING DETECTED</h3>
-                                <p style="margin: 2px 0 0 0; color: #CBD5E1; font-size: 0.88rem;">
+                                <p style="margin: 2px 0 0 0; color: #F8FAFC; font-size: 0.9rem;">
                                     No statistically significant duplicated regions met the geometric verification criteria.
                                 </p>
                             </div>
