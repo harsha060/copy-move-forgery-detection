@@ -1,0 +1,121 @@
+{
+  "benchmark_evaluation": {
+    "dataset": "CMFD_Synthetic_Benchmark_v1",
+    "detector_configuration": {
+      "method": "SIFT",
+      "n_features": 2500,
+      "ratio_threshold": 0.75,
+      "min_spatial_distance": 50.0,
+      "min_matches_for_ransac": 4,
+      "min_inliers_for_forgery": 6,
+      "ransac_reproj_threshold": 5.0,
+      "mask_dilation_radius": 25,
+      "original_shape": [
+        500,
+        500
+      ],
+      "working_shape": [
+        500,
+        500
+      ]
+    },
+    "results": [
+      {
+        "image_name": "authentic.png",
+        "detection_level": {
+          "is_forged_ground_truth": false,
+          "is_forged_predicted": false,
+          "verdict_correct": true,
+          "classification_category": "TN"
+        },
+        "pixel_level": {
+          "tp_pixels": 0,
+          "fp_pixels": 0,
+          "fn_pixels": 0,
+          "tn_pixels": 250000,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1_score": 1.0,
+          "iou": 1.0
+        },
+        "total_pixels": 250000,
+        "summary": {
+          "detection_verdict": "CORRECT",
+          "classification": "TN",
+          "pixel_precision": 1.0,
+          "pixel_recall": 1.0,
+          "pixel_f1": 1.0,
+          "pixel_iou": 1.0
+        }
+      },
+      {
+        "image_name": "forged.png (pasted region)",
+        "detection_level": {
+          "is_forged_ground_truth": true,
+          "is_forged_predicted": true,
+          "verdict_correct": true,
+          "classification_category": "TP"
+        },
+        "pixel_level": {
+          "tp_pixels": 9935,
+          "fp_pixels": 17403,
+          "fn_pixels": 65,
+          "tn_pixels": 222597,
+          "precision": 0.3634,
+          "recall": 0.9935,
+          "f1_score": 0.5322,
+          "iou": 0.3626
+        },
+        "total_pixels": 250000,
+        "summary": {
+          "detection_verdict": "CORRECT",
+          "classification": "TP",
+          "pixel_precision": 0.3634,
+          "pixel_recall": 0.9935,
+          "pixel_f1": 0.5322,
+          "pixel_iou": 0.3626
+        }
+      },
+      {
+        "image_name": "forged.png (source & target regions)",
+        "detection_level": {
+          "is_forged_ground_truth": true,
+          "is_forged_predicted": true,
+          "verdict_correct": true,
+          "classification_category": "TP"
+        },
+        "pixel_level": {
+          "tp_pixels": 19870,
+          "fp_pixels": 7468,
+          "fn_pixels": 130,
+          "tn_pixels": 222532,
+          "precision": 0.7268,
+          "recall": 0.9935,
+          "f1_score": 0.8395,
+          "iou": 0.7234
+        },
+        "total_pixels": 250000,
+        "summary": {
+          "detection_verdict": "CORRECT",
+          "classification": "TP",
+          "pixel_precision": 0.7268,
+          "pixel_recall": 0.9935,
+          "pixel_f1": 0.8395,
+          "pixel_iou": 0.7234
+        }
+      }
+    ],
+    "test_summary": {
+      "authentic_sample_verdict": "UNTAMPERED",
+      "authentic_sample_correct": true,
+      "forged_sample_verdict": "TAMPERED",
+      "forged_sample_correct": true,
+      "forged_verified_inliers": 185,
+      "forged_confidence_score": 0.9979,
+      "pixel_iou_against_both_cloned_regions": 0.7234,
+      "pixel_f1_against_both_cloned_regions": 0.8395,
+      "pixel_precision_against_both": 0.7268,
+      "pixel_recall_against_both": 0.9935
+    }
+  }
+}

@@ -286,3 +286,129 @@ def test_visualizer_empty_mask_overlay(authentic_synthetic_image: np.ndarray):
 
     assert overlay.shape == authentic_synthetic_image.shape
     assert np.array_equal(overlay, authentic_synthetic_image)
+
+
+# --------------------------------------------------------------------------
+# Evaluation & Metric Tests
+# --------------------------------------------------------------------------
+
+from src.evaluation import evaluate_masks, evaluate_forgery_detection, PixelMetrics, FullEvaluationReport
+from scripts.generate_samples import generate_synthetic_samples
+from app import image_to_png_bytes, load_image_bytes
+
+
+def test_evaluation_identical_positive_masks():
+    """Identical non-empty masks should return 1.0 for Precision, Recall, F1, and IoU."""
+    gt = np.zeros((100, 100), dtype=np.uint8)
+    gt[20:60, 20:60] = 255
+    pred = gt.copy()
+
+    metrics = evaluate_masks(pred, gt)
+    assert isinstance(metrics, PixelMetrics)
+    assert metrics.tp_pixels == 40 * 40
+    assert metrics.fp_pixels == 0
+    assert metrics.fn_pixels == 0
+    assert metrics.precision == 1.0
+    assert metrics.recall == 1.0
+    assert metrics.f1_score == 1.0
+    assert metrics.iou == 1.0
+
+
+def test_evaluation_both_empty_masks():
+    """Both masks empty (authentic correctly classified) must return 1.0 across all metrics."""
+    gt = np.zeros((100, 100), dtype=np.uint8)
+    pred = np.zeros((100, 100), dtype=np.uint8)
+
+    metrics = evaluate_masks(pred, gt)
+    assert metrics.tp_pixels == 0
+    assert metrics.fp_pixels == 0
+    assert metrics.fn_pixels == 0
+    assert metrics.tn_pixels == 10000
+    assert metrics.precision == 1.0
+    assert metrics.recall == 1.0
+    assert metrics.f1_score == 1.0
+    assert metrics.iou == 1.0
+
+
+def test_evaluation_disjoint_masks():
+    """Completely non-overlapping masks must yield 0.0 for Precision, Recall, F1, and IoU."""
+    gt = np.zeros((100, 100), dtype=np.uint8)
+    gt[10:30, 10:30] = 255
+    pred = np.zeros((100, 100), dtype=np.uint8)
+    pred[60:80, 60:80] = 255
+
+    metrics = evaluate_masks(pred, gt)
+    assert metrics.tp_pixels == 0
+    assert metrics.fp_pixels == 400
+    assert metrics.fn_pixels == 400
+    assert metrics.precision == 0.0
+    assert metrics.recall == 0.0
+    assert metrics.f1_score == 0.0
+    assert metrics.iou == 0.0
+
+
+def test_evaluation_partial_overlap():
+    """Controlled 50% overlap should compute correct numerical IoU."""
+    gt = np.zeros((100, 100), dtype=np.uint8)
+    gt[20:60, 20:60] = 255  # 40x40 = 1600 px
+
+    pred = np.zeros((100, 100), dtype=np.uint8)
+    pred[20:60, 40:80] = 255  # 40x40 = 1600 px, overlap is [20:60, 40:60] = 40x20 = 800 px
+
+    metrics = evaluate_masks(pred, gt)
+    assert metrics.tp_pixels == 800
+    assert metrics.fp_pixels == 800
+    assert metrics.fn_pixels == 800
+    # union = 800 + 800 + 800 = 2400
+    expected_iou = round(800 / 2400, 4)
+    assert metrics.iou == expected_iou
+    assert metrics.precision == 0.5
+    assert metrics.recall == 0.5
+
+
+def test_evaluation_full_report_structure():
+    """Full evaluation report must correctly serialize detection and pixel metrics."""
+    gt = np.zeros((50, 50), dtype=np.uint8)
+    pred = np.zeros((50, 50), dtype=np.uint8)
+
+    report = evaluate_forgery_detection(
+        image_name="test_sample.png",
+        predicted_is_forgery=False,
+        predicted_mask=pred,
+        ground_truth_is_forgery=False,
+        ground_truth_mask=gt,
+    )
+    assert isinstance(report, FullEvaluationReport)
+    assert report.detection_level.classification_category == "TN"
+    assert report.detection_level.verdict_correct is True
+
+    rep_dict = report.to_dict()
+    assert "detection_level" in rep_dict
+    assert "pixel_level" in rep_dict
+    assert rep_dict["pixel_level"]["iou"] == 1.0
+
+
+def test_synthetic_sample_generator_reproducibility(tmp_path: Path):
+    """Synthetic dataset generator must create all expected images and metadata."""
+    meta = generate_synthetic_samples(tmp_path, image_size=(200, 200), random_seed=99)
+    assert (tmp_path / "authentic.png").exists()
+    assert (tmp_path / "forged.png").exists()
+    assert (tmp_path / "ground_truth_mask.png").exists()
+    assert (tmp_path / "ground_truth_both_mask.png").exists()
+    assert (tmp_path / "metadata.json").exists()
+    assert meta["image_dimensions"]["width"] == 200
+    assert meta["image_dimensions"]["height"] == 200
+
+
+def test_app_helpers_image_to_png_and_decode(tmp_path: Path, authentic_synthetic_image: np.ndarray):
+    """Streamlit app helpers must convert numpy arrays to PNG bytes and safely decode."""
+    png_bytes = image_to_png_bytes(authentic_synthetic_image)
+    assert isinstance(png_bytes, bytes)
+    assert len(png_bytes) > 0
+    # PNG signature check: \x89PNG
+    assert png_bytes[:4] == b"\x89PNG"
+
+    # Test load_image_bytes
+    img_arr, name, size = load_image_bytes(png_bytes)
+    assert img_arr.shape == authentic_synthetic_image.shape
+    assert size == len(png_bytes)

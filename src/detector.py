@@ -246,10 +246,8 @@ class CopyMoveDetector:
         if scale_est < 0.3 or scale_est > 3.5:
             return [], None
 
-        # Defensible cluster separation check:
-        # For genuine copy-move forgery, source region and target region are two DISTINCT spatial clusters.
-        # If the centroid distance between source points and target points is below min_spatial_distance,
-        # it indicates an internal symmetry within a single object rather than a copy-move forgery.
+        # Defensible cluster separation and disjointness checks:
+        # In Copy-Move forgery, source and target must be two distinct, spatially disjoint regions.
         v_pts1 = np.array([m.pt1 for m in verified])
         v_pts2 = np.array([m.pt2 for m in verified])
         c1 = v_pts1.mean(axis=0)
@@ -259,6 +257,31 @@ class CopyMoveDetector:
         if centroid_separation < self.min_spatial_distance:
             # Internal self-symmetry within a single object, not a cloned region elsewhere
             return [], None
+
+        # Check cluster disjointness: centroid separation must exceed the combined cluster radii
+        span1 = float(np.max(np.linalg.norm(v_pts1 - c1, axis=1))) if len(v_pts1) > 0 else 0.0
+        span2 = float(np.max(np.linalg.norm(v_pts2 - c2, axis=1))) if len(v_pts2) > 0 else 0.0
+
+        if centroid_separation < (span1 + span2):
+            # Clusters overlap physically; they belong to the same localized object
+            return [], None
+
+        # Internal rotation center check:
+        # If transformation is a rotation about an internal center, it's self-rotational symmetry
+        a, b = matrix[0, 0], matrix[0, 1]
+        rot_mat = np.array([[a, b], [-b, a]])
+        eye = np.eye(2)
+        det = float(np.linalg.det(eye - rot_mat))
+        if abs(det) > 1e-4:
+            try:
+                center_rot = np.linalg.inv(eye - rot_mat) @ matrix[:, 2]
+                dist_to_c1 = float(np.linalg.norm(center_rot - c1))
+                dist_to_c2 = float(np.linalg.norm(center_rot - c2))
+                if dist_to_c1 <= (span1 * 1.1) or dist_to_c2 <= (span2 * 1.1):
+                    # Center of rotation is inside the object envelope: internal symmetry
+                    return [], None
+            except np.linalg.LinAlgError:
+                pass
 
         return verified, matrix
 

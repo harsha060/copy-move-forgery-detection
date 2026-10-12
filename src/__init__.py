@@ -2,7 +2,7 @@
 
 This package provides tools for digital image processing-based forgery detection,
 including preprocessing, keypoint-based matching (SIFT/ORB), geometric verification (RANSAC),
-and forensic visualization.
+forensic visualization, and quantitative evaluation.
 """
 
 from src.preprocessing import PreprocessedImage, preprocess_image, to_grayscale
@@ -12,6 +12,13 @@ from src.visualizer import (
     draw_matches,
     create_binary_mask,
     create_overlay,
+)
+from src.evaluation import (
+    PixelMetrics,
+    DetectionMetrics,
+    FullEvaluationReport,
+    evaluate_masks,
+    evaluate_forgery_detection,
 )
 
 __all__ = [
@@ -24,4 +31,9 @@ __all__ = [
     "draw_matches",
     "create_binary_mask",
     "create_overlay",
+    "PixelMetrics",
+    "DetectionMetrics",
+    "FullEvaluationReport",
+    "evaluate_masks",
+    "evaluate_forgery_detection",
 ]

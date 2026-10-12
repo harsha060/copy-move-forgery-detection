@@ -1,0 +1,43 @@
+{
+  "dataset_name": "CMFD_Synthetic_Benchmark_v1",
+  "generated_at": "2026-10-13T01:33:19.421943",
+  "random_seed": 42,
+  "image_dimensions": {
+    "width": 500,
+    "height": 500,
+    "channels": 3
+  },
+  "manipulation_type": "Copy-Move (Cloning)",
+  "source_region": {
+    "x": 50,
+    "y": 50,
+    "width": 100,
+    "height": 100,
+    "center": [
+      100.0,
+      100.0
+    ]
+  },
+  "target_region": {
+    "x": 280,
+    "y": 300,
+    "width": 100,
+    "height": 100,
+    "center": [
+      330.0,
+      350.0
+    ]
+  },
+  "displacement": {
+    "dx": 230,
+    "dy": 250,
+    "euclidean_distance_px": 339.71
+  },
+  "transformation": "Translation (Identity scaling and 0 rotation)",
+  "files": {
+    "authentic_image": "authentic.png",
+    "forged_image": "forged.png",
+    "ground_truth_pasted_mask": "ground_truth_mask.png",
+    "ground_truth_both_mask": "ground_truth_both_mask.png"
+  }
+}
