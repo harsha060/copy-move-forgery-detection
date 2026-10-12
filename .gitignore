@@ -10,4 +10,4 @@ __pycache__/
 
 # Pytest & Streamlit
 .pytest_cache/
-.streamlit/
+.streamlit/secrets.toml
